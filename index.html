@@ -951,11 +951,12 @@ async function subReg(){
   const ln=document.getElementById('rln').value.trim();
   const ph=document.getElementById('rph').value.trim();
   if(!fn||!ln||!ph){showToast("Barcha maydonlarni to\u02BBldiring");return;}
+  if(ph.replace(/\D/g,'').length!==12){showToast("Telefon raqamini to\u02BBliq kiriting");return;}
   try{
     const resp = await fetch('/api/register',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ism:fn, familiya:ln, telefon:ph})
+      body:JSON.stringify({ism:fn, familiya:ln, telefon:'+'+ph.replace(/\D/g,'')})
     });
     if(!resp.ok) throw new Error();
   }catch(e){
@@ -968,12 +969,17 @@ async function subReg(){
 document.querySelectorAll('input[type=tel]').forEach(inp=>{
   inp.addEventListener('input',function(){
     let v=this.value.replace(/\D/g,'');
-    if(v.length>0&&!v.startsWith('998'))v='998'+v;
-    if(v)v='+'+v;
-    this.value=v.slice(0,13);
+    if(v.startsWith('998'))v=v.slice(3);
+    v=v.slice(0,9);
+    let fmt='+998';
+    if(v.length>0)fmt+='('+v.slice(0,2);
+    if(v.length>=2)fmt+=') '+v.slice(2,5);
+    if(v.length>=5)fmt+='-'+v.slice(5,7);
+    if(v.length>=7)fmt+='-'+v.slice(7,9);
+    this.value=fmt;
   });
 });
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),3000);}
 </script>
 </body>
-</html>
+          </html>
