@@ -14,9 +14,9 @@ export default async function handler(req, res) {
 
   const text =
     `<b>Yangi lid!</b>\n\n` +
-    `<b>Familiya va Ismi:</b>\n${familiya} ${ism}\n` +
-    `<b>Tel:</b>\n${telefon}\n` +
-    `<b>Ro\u02BBxatdan o\u02BBtgan vaqti:</b>\n${new Date().toLocaleString('uz-UZ')}`;
+    `<b>Familiya va Ismi: </b>${familiya} ${ism}\n` +
+    `<b>Tel: </b>${telefon}\n` +
+    `<b>Ro\u02BBxatdan o\u02BBtgan vaqti: </b>${new Date().toLocaleString('uz-UZ')}`;
 
   try {
     await Promise.all(
